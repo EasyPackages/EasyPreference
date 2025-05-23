@@ -173,6 +173,48 @@ struct UserDefaultPreferenceSetterAdapterTests {
         }
     }
     
+    @Suite(".setDict(_:value:)")
+    struct SetDictTests {
+        private let env = makeEnv(valueType: [String: String].self)
+        
+        @Test("should call set once with dictionary value and expected key")
+        func shouldCallSetOnceWithDictValueAndExpectedKey() {
+            let key = "any-key"
+            let value = ["key": "value"]
+            
+            env.sut.setDict(key, value: value)
+            
+            #expect(env.providerDouble.setMocked.callCount == 1)
+            env.providerDouble.expect(at: 0, key: key, value: value)
+        }
+        
+        @Test("should call set once with same dictionary but different key")
+        func shouldCallSetOnceWithSameDictDifferentKey() {
+            let key = "any-other-key"
+            let value = ["key": "value"]
+            
+            env.sut.setDict(key, value: value)
+            
+            #expect(env.providerDouble.setMocked.callCount == 1)
+            env.providerDouble.expect(at: 0, key: key, value: value)
+        }
+        
+        @Test("should call set twice with different dictionaries and keys")
+        func shouldCallSetTwiceWithDifferentDictionariesAndKeys() {
+            let key1 = "any-other-key"
+            let value1 = ["key": "value"]
+            let key2 = "any-key"
+            let value2 = ["key": "another-value"]
+            env.sut.setDict(key1, value: value1)
+            
+            env.sut.setDict(key2, value: value2)
+            
+            #expect(env.providerDouble.setMocked.callCount == 2)
+            env.providerDouble.expect(at: 0, key: key1, value: value1)
+            env.providerDouble.expect(at: 1, key: key2, value: value2)
+        }
+    }
+    
     private struct Environment<T: Equatable> {
         let sut: UserDefaultPreferenceSetterAdapter
         let providerDouble: PreferenceSetterProviderDouble<T>

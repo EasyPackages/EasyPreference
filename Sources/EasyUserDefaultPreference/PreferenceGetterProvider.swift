@@ -26,4 +26,8 @@ public struct UserDefaultPreferenceGetterAdapter: PreferenceGetter {
     public func getData(_ key: String) -> Data? {
         provider.value(forKey: key) as? Data
     }
+    
+    public func getDict(_ key: String) -> [String : Any]? {
+        provider.value(forKey: key) as? [String: Any]
+    }
 }

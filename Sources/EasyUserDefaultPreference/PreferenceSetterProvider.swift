@@ -26,4 +26,8 @@ public struct UserDefaultPreferenceSetterAdapter: PreferenceSetter {
     public func setData(_ key: String, value: Data) {
         provider.set(value, forKey: key)
     }
+    
+    public func setDict(_ key: String, value: [String : Any]) {
+        provider.set(value, forKey: key)
+    }
 }

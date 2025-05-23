@@ -10,6 +10,7 @@ struct PreferenceSetterDouble: PreferenceSetter {
     let setIntMocked = Mock<(key: String, value: Int), Void>()
     let setDoubleMocked = Mock<(key: String, value: Double), Void>()
     let setDataMocked = Mock<(key: String, value: Data), Void>()
+    let setDictMocked = Mock<(key: String, value: [String: Any]), Void>()
     
     func setBool(_ key: String, value: Bool) {
         setBoolMocked.synchronize((key, value))
@@ -25,6 +26,10 @@ struct PreferenceSetterDouble: PreferenceSetter {
     
     func setData(_ key: String, value: Data) {
         setDataMocked.synchronize((key, value))
+    }
+    
+    func setDict(_ key: String, value: [String: Any]) {
+        setDictMocked.synchronize((key, value))
     }
     
     func expectBool(at index: Int, key: String, value: Bool, sourceLocation: SourceLocation = #_sourceLocation) {
@@ -73,5 +78,17 @@ struct PreferenceSetterDouble: PreferenceSetter {
         
         #expect(spy.key == key, sourceLocation: sourceLocation)
         #expect(spy.value == value, sourceLocation: sourceLocation)
+    }
+    
+    func expectDict(at index: Int, key: String, value: [String: String], sourceLocation: SourceLocation = #_sourceLocation) {
+        let spies = setDictMocked.spies
+        guard spies.indices.contains(index) else {
+            return expectFail("Spy propertry not found at index \(index)", sourceLocation: sourceLocation)
+        }
+        
+        let spy = spies[index]
+        
+        #expect(spy.key == key, sourceLocation: sourceLocation)
+        #expect(spy.value as? [String: String] == value, sourceLocation: sourceLocation)
     }
 }

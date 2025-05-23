@@ -30,6 +30,10 @@ public struct UserDefaultPreferenceAdapter: Preference {
         getter.getData(key)
     }
     
+    public func getDict(_ key: String) -> [String: Any]? {
+        getter.getDict(key)
+    }
+    
     public func setBool(_ key: String, value: Bool) {
         setter.setBool(key, value: value)
     }
@@ -44,5 +48,9 @@ public struct UserDefaultPreferenceAdapter: Preference {
     
     public func setData(_ key: String, value: Data) {
         setter.setData(key, value: value)
+    }
+    
+    public func setDict(_ key: String, value: [String: Any]) {
+        setter.setDict(key, value: value)
     }
 }

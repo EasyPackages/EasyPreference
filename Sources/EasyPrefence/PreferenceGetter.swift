@@ -5,4 +5,5 @@ public protocol PreferenceGetter {
     func getInt(_ key: String) -> Int?
     func getDouble(_ key: String) -> Double?
     func getData(_ key: String) -> Data?
+    func getDict(_ key: String) -> [String: Any]?
 }
