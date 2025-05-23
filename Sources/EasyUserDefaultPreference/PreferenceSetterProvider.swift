@@ -120,11 +120,13 @@ public struct UserDefaultPreferenceSetterAdapter: PreferenceSetter {
         provider.set(value, forKey: key)
     }
     
+    ///
     /// Stores binary data in the preference store for the specified key.
     ///
     /// - Parameters:
     ///   - key: The key under which to store the value.
     ///   - value: The Data object to store.
+    ///   
     public func setData(_ key: String, value: Data) {
         provider.set(value, forKey: key)
     }

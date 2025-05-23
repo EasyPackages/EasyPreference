@@ -79,49 +79,61 @@ public protocol PreferenceGetterProvider {
 public struct UserDefaultPreferenceGetterAdapter: PreferenceGetter {
     private let provider: PreferenceGetterProvider
     
+    ///
     /// Initializes the adapter with a `PreferenceGetterProvider`.
     ///
     /// - Parameter provider: The provider responsible for fetching raw values. Defaults to `UserDefaults.standard`.
+    ///
     public init(provider: PreferenceGetterProvider = UserDefaults.standard) {
         self.provider = provider
     }
     
+    ///
     /// Retrieves a Boolean value associated with the specified key.
     ///
     /// - Parameter key: The key to look up in the preference store.
     /// - Returns: The Boolean value associated with the key, or `nil` if the key does not exist or the value is not a Boolean.
+    ///
     public func getBool(_ key: String) -> Bool? {
         provider.value(forKey: key) as? Bool
     }
     
+    ///
     /// Retrieves an integer value associated with the specified key.
     ///
     /// - Parameter key: The key to look up in the preference store.
     /// - Returns: The integer value associated with the key, or `nil` if the key does not exist or the value is not an integer.
+    ///
     public func getInt(_ key: String) -> Int? {
         provider.value(forKey: key) as? Int
     }
     
+    ///
     /// Retrieves a double-precision floating-point value associated with the specified key.
     ///
     /// - Parameter key: The key to look up in the preference store.
     /// - Returns: The Double value associated with the key, or `nil` if the key does not exist or the value is not a Double.
+    ///
     public func getDouble(_ key: String) -> Double? {
         provider.value(forKey: key) as? Double
     }
     
+    ///
     /// Retrieves binary data associated with the specified key.
     ///
     /// - Parameter key: The key to look up in the preference store.
     /// - Returns: The Data value associated with the key, or `nil` if the key does not exist or the value is not Data.
+    ///
     public func getData(_ key: String) -> Data? {
         provider.value(forKey: key) as? Data
     }
     
+    ///
     /// Retrieves a dictionary associated with the specified key.
     ///
     /// - Parameter key: The key to look up in the preference store.
     /// - Returns: The dictionary associated with the key, or `nil` if the key does not exist or the value is not a dictionary.
+    ///
     public func getDict(_ key: String) -> [String : Any]? {
         provider.value(forKey: key) as? [String: Any]
     }
