@@ -240,7 +240,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
         func shouldReturnNilWhenNoValueIsStored() {
             env.providerDouble.valueMocked.mock(returning: nil)
             
-            #expect(env.sut.getData(key) == nil)
+            #expect(env.sut.getDict(key) == nil)
         }
         
         @Test("should return nil when no value is stored with wrong type")
@@ -248,7 +248,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
             let env = makeEnv(valueType: Bool.self)
             env.providerDouble.valueMocked.mock(returning: true)
             
-            #expect(env.sut.getData(key) == nil)
+            #expect(env.sut.getDict(key) == nil)
         }
         
         @Test("should return when true is stored")
@@ -271,7 +271,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
         func shouldCallProviderWithExpectedKey()  {
             let key = "any"
             
-            _ = env.sut.getData(key)
+            _ = env.sut.getDict(key)
             
             #expect(env.providerDouble.valueMocked.spies == [key])
         }
@@ -279,9 +279,9 @@ struct UserDefaultPreferenceGetterAdapterTests {
         @Test("should call provider twice with different keys")
         func shouldCallProviderTwiceWithDifferentKeys() {
             let key2 = "any-other"
-            _ = env.sut.getData(key)
+            _ = env.sut.getDict(key)
             
-            _ = env.sut.getData(key2)
+            _ = env.sut.getDict(key2)
             
             #expect(env.providerDouble.valueMocked.spies == [key, key2])
         }
