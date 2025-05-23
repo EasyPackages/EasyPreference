@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "052ECBE0-5708-40DD-B37B-ECA1D3B10504",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "EasyUserDefaultPreference",
+          "name" : "EasyUserDefaultPreference"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "EasyUserDefaultPreferenceTests",
+        "name" : "EasyUserDefaultPreferenceTests"
+      }
+    }
+  ],
+  "version" : 1
+}

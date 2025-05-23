@@ -1,0 +1,15 @@
+{
+  "originHash" : "8ecf31753b0f214f302b42c285b981cbace1641683e5058adde8d0b5dc17f36b",
+  "pins" : [
+    {
+      "identity" : "easymock",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EasyPackages/EasyMock.git",
+      "state" : {
+        "revision" : "4a26d5a220414099371b53b155c11da95a1e5966",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
