@@ -17,9 +17,12 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/EasyPackages/EasyMock.git",
-            from: "1.0.0"
+            branch: "main"
         ),
-        .package(path: "../EasyTesting")
+        .package(
+            url: "https://github.com/EasyPackages/EasyTesting.git",
+            branch: "main"
+        )
     ],
     targets: [
         .target(name: "EasyPrefence"),

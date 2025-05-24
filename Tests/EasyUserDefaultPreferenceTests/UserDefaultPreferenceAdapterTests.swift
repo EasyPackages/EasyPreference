@@ -203,6 +203,54 @@ struct UserDefaultPreferenceAdapterTests {
                 #expect(env.getterDouble.getDataMocked.spies == [key, key2])
             }
         }
+        
+        @Suite(".getDict(value:)")
+        struct DictTests {
+            private let key = "any"
+            private let env = makeEnv()
+            
+            @Test("should return nil when no value is stored")
+            func shouldReturnNilWhenNoValueIsStored() {
+                env.getterDouble.getDictMocked.mock(returning: nil)
+                
+                #expect(env.sut.getDict(key) == nil)
+            }
+            
+            @Test("should return when true is stored")
+            func shouldReturnTrueWhenTrueIsStored() {
+                let valueStub = ["key": "value"]
+                env.getterDouble.getDictMocked.mock(returning: valueStub)
+                
+                #expect(env.sut.getDict(key) as? [String: String] == valueStub)
+            }
+            
+            @Test("should return other data when false is stored")
+            func shouldReturnFalseWhenFalseIsStored() {
+                let valueStub = ["key": "value"]
+                env.getterDouble.getDictMocked.mock(returning: valueStub)
+                
+                #expect(env.sut.getDict(key) as? [String: String] == valueStub)
+            }
+            
+            @Test("should call provider with expected key")
+            func shouldCallProviderWithExpectedKey()  {
+                let key = "any"
+                
+                _ = env.sut.getDict(key)
+                
+                #expect(env.getterDouble.getDictMocked.spies == [key])
+            }
+            
+            @Test("should call provider twice with different keys")
+            func shouldCallProviderTwiceWithDifferentKeys() {
+                let key2 = "any-other"
+                _ = env.sut.getDict(key)
+                
+                _ = env.sut.getDict(key2)
+                
+                #expect(env.getterDouble.getDictMocked.spies == [key, key2])
+            }
+        }
     }
     
     @Suite("Set")
@@ -373,6 +421,48 @@ struct UserDefaultPreferenceAdapterTests {
                 #expect(env.setterDouble.setDataMocked.callCount == 2)
                 env.setterDouble.expectData(at: 0, key: key1, value: value1)
                 env.setterDouble.expectData(at: 1, key: key2, value: value2)
+            }
+        }
+        
+        @Suite(".setDict(_:value:)")
+        struct SetDictTests {
+            private let env = makeEnv()
+            
+            @Test("should call set once with dict value and expected key")
+            func shouldCallSetOnceWithDictValueAndExpectedKey() {
+                let key = "any-key"
+                let value = ["key": "value"]
+                
+                env.sut.setDict(key, value: value)
+                
+                #expect(env.setterDouble.setDictMocked.callCount == 1)
+                env.setterDouble.expectDict(at: 0, key: key, value: value)
+            }
+            
+            @Test("should call set once with same dict but different key")
+            func shouldCallSetOnceWithSameDictDifferentKey() {
+                let key = "any-other-key"
+                let value = ["key": "value"]
+                
+                env.sut.setDict(key, value: value)
+                
+                #expect(env.setterDouble.setDictMocked.callCount == 1)
+                env.setterDouble.expectDict(at: 0, key: key, value: value)
+            }
+            
+            @Test("should call set twice with different dict and keys")
+            func shouldCallSetTwiceWithDifferentDictAndKeys() {
+                let key1 = "any-other-key"
+                let value1 = ["key": "value"]
+                let key2 = "any-key"
+                let value2 = ["key2": "value2"]
+                env.sut.setDict(key1, value: value1)
+                
+                env.sut.setDict(key2, value: value2)
+                
+                #expect(env.setterDouble.setDictMocked.callCount == 2)
+                env.setterDouble.expectDict(at: 0, key: key1, value: value1)
+                env.setterDouble.expectDict(at: 1, key: key2, value: value2)
             }
         }
     }

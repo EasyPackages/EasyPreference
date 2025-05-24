@@ -7,7 +7,7 @@ import EasyMock
 
 @Suite("UserDefaultPreferenceGetterAdapter")
 struct UserDefaultPreferenceGetterAdapterTests {
-    @Suite(".getBool(value:)")
+    @Suite(".getBool(key:)")
     struct BoolTests {
         private let key = "any"
         private let env = makeEnv(valueType: Bool.self)
@@ -63,7 +63,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
         }
     }
     
-    @Suite(".getBool(value:)")
+    @Suite(".getBool(key:)")
     struct IntTests {
         private let key = "any"
         private let env = makeEnv(valueType: Int.self)
@@ -119,7 +119,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
         }
     }
     
-    @Suite(".getDouble(value:)")
+    @Suite(".getDouble(key:)")
     struct DoubleTests {
         private let key = "any"
         private let env = makeEnv(valueType: Double.self)
@@ -175,7 +175,7 @@ struct UserDefaultPreferenceGetterAdapterTests {
         }
     }
     
-    @Suite(".getData(value:)")
+    @Suite(".getData(key:)")
     struct DataTests {
         private let key = "any"
         private let env = makeEnv(valueType: Data.self)
@@ -226,6 +226,62 @@ struct UserDefaultPreferenceGetterAdapterTests {
             _ = env.sut.getData(key)
             
             _ = env.sut.getData(key2)
+            
+            #expect(env.providerDouble.valueMocked.spies == [key, key2])
+        }
+    }
+    
+    @Suite(".getDict(key:)")
+    struct DictTests {
+        private let key = "any"
+        private let env = makeEnv(valueType: [String: String].self)
+        
+        @Test("should return nil when no value is stored")
+        func shouldReturnNilWhenNoValueIsStored() {
+            env.providerDouble.valueMocked.mock(returning: nil)
+            
+            #expect(env.sut.getDict(key) == nil)
+        }
+        
+        @Test("should return nil when no value is stored with wrong type")
+        func shouldReturnNilWhenNoValueIsStoredWrongType() {
+            let env = makeEnv(valueType: Bool.self)
+            env.providerDouble.valueMocked.mock(returning: true)
+            
+            #expect(env.sut.getDict(key) == nil)
+        }
+        
+        @Test("should return when true is stored")
+        func shouldReturnTrueWhenTrueIsStored() {
+            let valueStub = ["k": "v"]
+            env.providerDouble.valueMocked.mock(returning: valueStub)
+            
+            #expect(env.sut.getDict(key) as? [String: String] == valueStub)
+        }
+        
+        @Test("should return other data when false is stored")
+        func shouldReturnFalseWhenFalseIsStored() {
+            let valueStub = ["k": "v"]
+            env.providerDouble.valueMocked.mock(returning: valueStub)
+            
+            #expect(env.sut.getDict(key) as? [String: String] == valueStub)
+        }
+        
+        @Test("should call provider with expected key")
+        func shouldCallProviderWithExpectedKey()  {
+            let key = "any"
+            
+            _ = env.sut.getDict(key)
+            
+            #expect(env.providerDouble.valueMocked.spies == [key])
+        }
+        
+        @Test("should call provider twice with different keys")
+        func shouldCallProviderTwiceWithDifferentKeys() {
+            let key2 = "any-other"
+            _ = env.sut.getDict(key)
+            
+            _ = env.sut.getDict(key2)
             
             #expect(env.providerDouble.valueMocked.spies == [key, key2])
         }

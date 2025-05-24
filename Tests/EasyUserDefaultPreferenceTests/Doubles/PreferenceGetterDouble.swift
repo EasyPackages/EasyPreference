@@ -9,6 +9,7 @@ struct PreferenceGetterDouble: PreferenceGetter {
     let getIntMocked = Mock<String, Int?>(nil)
     let getDoubleMocked = Mock<String, Double?>(nil)
     let getDataMocked = Mock<String, Data?>(nil)
+    let getDictMocked = Mock<String, [String: Any]?>(nil)
     
     func getBool(_ key: String) -> Bool? {
         getBoolMocked.synchronize(key)
@@ -24,5 +25,9 @@ struct PreferenceGetterDouble: PreferenceGetter {
     
     func getData(_ key: String) -> Data? {
         getDataMocked.synchronize(key)
+    }
+    
+    func getDict(_ key: String) -> [String: Any]? {
+        getDictMocked.synchronize(key)
     }
 }
